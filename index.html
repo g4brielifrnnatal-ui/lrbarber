@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LR Barbearia | Levy Roberto - Pajuçara, Natal/RN</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            DEFAULT: '#D4AF37',
+                            light: '#F3E5AB',
+                            dark: '#AA8C2C',
+                        },
+                        darkBg: '#121212',
+                        cardBg: '#1E1E1E',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Montserrat', sans-serif; background-color: #121212; color: #E5E7EB; }
+    </style>
+</head>
+<body class="bg-[#121212] text-gray-100 antialiased selection:bg-gold selection:text-black">
+
+    <!-- Header / Navbar -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-[#121212]/90 backdrop-blur-md border-b border-gold/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-full overflow-hidden border border-gold bg-black flex items-center justify-center">
+                    <img src="image_7825e1.png" alt="Logo LR Barbearia" class="w-full h-full object-cover">
+                </div>
+                <span class="text-xl font-bold tracking-wider text-white uppercase">LR <span class="text-gold">Barbearia</span></span>
+            </a>
+            
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+                <a href="#inicio" class="hover:text-gold transition">Início</a>
+                <a href="#sobre" class="hover:text-gold transition">O Profissional</a>
+                <a href="#servicos" class="hover:text-gold transition">Serviços & Valores</a>
+                <a href="#galeria" class="hover:text-gold transition">Galeria</a>
+                <a href="#agendamento" class="hover:text-gold transition text-gold font-semibold">Agendar Horário</a>
+                <a href="#contato" class="hover:text-gold transition">Contato</a>
+            </nav>
+
+            <div class="flex items-center gap-4">
+                <a href="#agendamento" class="hidden sm:inline-block bg-gold hover:bg-gold-dark text-black font-bold px-5 py-2.5 rounded-full text-sm transition shadow-lg shadow-gold/20">
+                    <i class="fa-regular fa-calendar-days mr-2"></i> Agendar Agora
+                </a>
+                <button id="mobile-menu-btn" class="md:hidden text-2xl text-gold focus:outline-none">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Nav Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-cardBg border-b border-gold/20 px-4 pt-2 pb-6 space-y-3">
+            <a href="#inicio" class="block py-2 hover:text-gold transition">Início</a>
+            <a href="#sobre" class="block py-2 hover:text-gold transition">O Profissional</a>
+            <a href="#servicos" class="block py-2 hover:text-gold transition">Serviços & Valores</a>
+            <a href="#galeria" class="block py-2 hover:text-gold transition">Galeria</a>
+            <a href="#agendamento" class="block py-2 text-gold font-semibold transition">Agendar Horário</a>
+            <a href="#contato" class="block py-2 hover:text-gold transition">Contato</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="relative pt-32 pb-20 md:pt-44 md:pb-32 overflow-hidden bg-gradient-to-b from-black via-[#121212] to-cardBg">
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#D4AF37_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/10 border border-gold/30 text-gold text-xs font-semibold tracking-wider uppercase">
+                        <i class="fa-solid fa-scissors"></i> Excelência em Pajuçara, Natal/RN
+                    </div>
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
+                        Estilo, Precisão e <span class="text-gold">Atendimento Premium</span>
+                    </h1>
+                    <p class="text-gray-400 text-base sm:text-lg max-w-xl mx-auto lg:mx-0">
+                        Valorize seu visual com o barbeiro Levy Roberto. Cortes modernos, barbas alinhadas e um ambiente feito para o seu bem-estar.
+                    </p>
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+                        <a href="#agendamento" class="w-full sm:w-auto bg-gold hover:bg-gold-dark text-black font-bold px-8 py-4 rounded-xl text-center transition shadow-xl shadow-gold/20 flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-calendar-check"></i> Marcar Horário Online
+                        </a>
+                        <a href="https://wa.me/5584987302952?text=Olá%20Levy,%20vim%20pelo%20site%20e%20gostaria%20de%20tirar%20uma%20dúvida." target="_blank" class="w-full sm:w-auto bg-transparent hover:bg-white/5 border border-gold/50 text-gold font-semibold px-8 py-4 rounded-xl text-center transition flex items-center justify-center gap-2">
+                            <i class="fa-brands fa-whatsapp text-lg"></i> Falar no WhatsApp
+                        </a>
+                    </div>
+                    <div class="pt-6 flex items-center justify-center lg:justify-start gap-6 text-xs text-gray-400">
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-star text-gold"></i> 5.0 Avaliações</div>
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-location-dot text-gold"></i> Rua do Malhado, 260</div>
+                    </div>
+                </div>
+                <div class="flex justify-center">
+                    <div class="relative w-72 h-72 sm:w-96 sm:h-96 rounded-3xl p-2 bg-gradient-to-tr from-gold to-transparent shadow-2xl shadow-gold/10">
+                        <img src="image_7822db.jpg" alt="Levy Roberto Barbeiro" class="w-full h-full object-cover rounded-2xl">
+                        <div class="absolute -bottom-6 -right-6 bg-cardBg border border-gold/40 p-4 rounded-2xl shadow-xl flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-full bg-gold text-black flex items-center justify-center text-xl font-bold">
+                                <i class="fa-solid fa-user-tie"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold text-sm">Levy Roberto</h4>
+                                <p class="text-gold text-xs">Barbeiro Profissional</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sobre o Barbeiro / Diferenciais -->
+    <section id="sobre" class="py-20 bg-cardBg border-t border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white">O Profissional por trás da <span class="text-gold">LR Barbearia</span></h2>
+                <div class="w-20 h-1 bg-gold mx-auto rounded-full"></div>
+                <p class="text-gray-400">Compromisso total com a sua imagem, utilizando as melhores técnicas de corte, barbearia clássica e visagismo moderno em Natal/RN.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-black/40 border border-gold/20 p-8 rounded-2xl text-center space-y-4 hover:border-gold transition">
+                    <div class="w-16 h-16 bg-gold/10 text-gold rounded-2xl flex items-center justify-center mx-auto text-2xl">
+                        <i class="fa-solid fa-gem"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white">Ambiente e Produtos Premium</h3>
+                    <p class="text-gray-400 text-sm">Utilização de produtos de alta qualidade para cabelo, barba e cuidados estéticos faciais.</p>
+                </div>
+                <div class="bg-black/40 border border-gold/20 p-8 rounded-2xl text-center space-y-4 hover:border-gold transition">
+                    <div class="w-16 h-16 bg-gold/10 text-gold rounded-2xl flex items-center justify-center mx-auto text-2xl">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white">Horários Flexíveis</h3>
+                    <p class="text-gray-400 text-sm">Atendimento de terça a domingo em horários planejados para facilitar o seu dia a dia.</p>
+                </div>
+                <div class="bg-black/40 border border-gold/20 p-8 rounded-2xl text-center space-y-4 hover:border-gold transition">
+                    <div class="w-16 h-16 bg-gold/10 text-gold rounded-2xl flex items-center justify-center mx-auto text-2xl">
+                        <i class="fa-solid fa-bullseye"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white">Atendimento Personalizado</h3>
+                    <p class="text-gray-400 text-sm">Foco total no seu estilo, escutando o que você deseja para entregar o resultado perfeito.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção de Serviços e Valores (Baseado no print oficial) -->
+    <section id="servicos" class="py-20 bg-[#121212]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white">Nossos <span class="text-gold">Valores e Serviços</span></h2>
+                <div class="w-20 h-1 bg-gold mx-auto rounded-full"></div>
+                <p class="text-gray-400">Confira a tabela oficial de preços da LR Barbearia para cortes, barbas, químicas e estética.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Cortes -->
+                <div class="bg-cardBg border border-gold/20 rounded-2xl p-6 shadow-xl space-y-4">
+                    <div class="flex items-center gap-3 border-b border-white/10 pb-4">
+                        <i class="fa-solid fa-scissors text-gold text-xl"></i>
+                        <h3 class="text-xl font-bold text-white">Cortes</h3>
+                    </div>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex justify-between items-center"><span class="text-gray-300">Só Máquina</span> <span class="text-gold font-bold">R$ 15,00</span></li>
+                        <li class="flex justify-between items-center"><span class="text-gray-300">Social</span> <span class="text-gold font-bold">R$ 20,00</span></li>
+                        <li class="flex justify-between items-center"><span class="text-gray-300">Degradê</span> <span class="text-gold font-bold">R$ 20,00</span></li>
+                        <li class="flex justify-between items-center"><span class="text-gray-300">Navalhado</span> <span class="text-gold font-bold">R$ 20,00</span></li>
+                        <li class="flex justify-between items-center"><span class="text-gray-300">Só Tesoura</span> <span class="text-gold font-bold">R$ 25,00</span></li>
+                        <li class="flex justify-between items-center"><span class="text-gray-300">Infantil</span> <span class="text-gold font-bold">R$ 25,00</span></li>
+                    </ul>
+                </div>
+
+                <!-- Barba & Serviços com Cera -->
+                <div class="bg-cardBg border border-gold/20 rounded-2xl p-6 shadow-xl space-y-4">
+                    <div class="flex items-center gap-3 border-b border-white/10 pb-4">
+                        <i class="fa-solid fa-face-smile text-gold text-xl"></i>
+                        <h3 class="text-xl font-bold text-white">Barba & Cera</h3>
+                    </div>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex justify-between items-center"><span class="text-gray-300">Barba Simples</span> <span class="text-gold font-bold">R$ 15,00</span></li>
+                        <li class="flex justify-between items-center"><span class="text-gray-300">Barba Terapia</span> <span class="text-gold font-bold">R$ 18,00</span></li>
+                        <li class="flex justify-between items-center"><span class="text-gray-300">Barba com Cera</span> <span class="text-gold font-bold">R$ 20,00</span></li>
+                        <li class="flex justify-between items-center"><span class="text-gray-300">Pelos da Orelha</span> <span class="text-gold font-bold">R$ 8,00</span></li>
+                        <li class="flex justify-between items-center"><span class="text-gray-300">Depilação Nasal</span> <span class="text-gold font-bold">R$ 5,00</span></li>
+                    </ul>
+                </div>
+
+                <!-- Químicas & Cuidados Capilares -->
+                <div class="bg-cardBg border border-gold/20 rounded-2xl p-6 shadow-xl space-y-4">
+                    <div class="flex items-center gap-3 border-b border-white/10 pb-4">
+                        <i class="fa-solid fa-wand-magic-sparkles text-gold text-xl"></i>
+                        <h3 class="text-xl font-bold text-white">Químicas & Hidratação</h3>
+                    </div>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex justify-between items-center"><span class="text-gray-300">Progressiva (a partir)</span> <span class="text-gold font-bold">R$ 50,00</span></li>
+                        <li class="flex justify-between items-center"><span class="text-gray-300">Relaxamento</span> <span class="text-gold font-bold">R$ 35,00</span></li>
+                        <li class="flex justify-between items-center"><span class="text-gray-300">Luzes / Nevou</span> <span class="text-gold font-bold">R$ 50,00</span></li>
+                        <li class="flex justify-between items-center"><span class="text-gray-300">Hidratação</span> <span class="text-gold font-bold">R$ 15,00</span></li>
+                        <li class="flex justify-between items-center"><span class="text-gray-300">Super Hidratação</span> <span class="text-gold font-bold">R$ 20,00</span></li>
+                    </ul>
+                </div>
+
+                <!-- Sobrancelha & Estética -->
+                <div class="bg-cardBg border border-gold/20 rounded-2xl p-6 shadow-xl space-y-4 md:col-span-2 lg:col-span-3 max-w-2xl mx-auto w-full">
+                    <div class="flex items-center gap-3 border-b border-white/10 pb-4">
+                        <i class="fa-solid fa-spray-can-sparkles text-gold text-xl"></i>
+                        <h3 class="text-xl font-bold text-white">Sobrancelha & Estética Facial</h3>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                        <div class="flex justify-between items-center"><span class="text-gray-300">Sobrancelha (Gilete)</span> <span class="text-gold font-bold">R$ 8,00</span></div>
+                        <div class="flex justify-between items-center"><span class="text-gray-300">Sobrancelha (Cera ou Pinça)</span> <span class="text-gold font-bold">R$ 20,00</span></div>
+                        <div class="flex justify-between items-center"><span class="text-gray-300">Limpeza de Pele na Cera</span> <span class="text-gold font-bold">R$ 15,00</span></div>
+                        <div class="flex justify-between items-center"><span class="text-gray-300">Limpeza de Pele na Argila</span> <span class="text-gold font-bold">R$ 20,00</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galeria de Trabalhos -->
+    <section id="galeria" class="py-20 bg-cardBg border-t border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <span class="text-gold text-xs font-bold uppercase tracking-widest bg-gold/10 px-3 py-1 rounded-full border border-gold/30">Portfólio</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white">Nossos <span class="text-gold">Trabalhos em Destaque</span></h2>
+                <div class="w-20 h-1 bg-gold mx-auto rounded-full"></div>
+                <p class="text-gray-400">Acompanhe cortes e acabamentos executados com precisão por Levy Roberto.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Card Galeria 1 -->
+                <div class="relative group overflow-hidden rounded-2xl border border-gold/20 aspect-square bg-black/50 flex items-center justify-center">
+                    <img src="image_7822db.jpg" alt="Corte Degradê" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 opacity-80 group-hover:opacity-100">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent flex flex-col justify-end p-6">
+                        <span class="text-gold font-bold text-base">Degradê Navalhado</span>
+                        <p class="text-xs text-gray-300">Acabamento impecável e alta precisão.</p>
+                    </div>
+                </div>
+                <!-- Card Galeria 2 -->
+                <div class="relative group overflow-hidden rounded-2xl border border-gold/20 aspect-square bg-black/50 flex items-center justify-center">
+                    <img src="image_7822db.jpg" alt="Barba Terapia" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 opacity-80 group-hover:opacity-100">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent flex flex-col justify-end p-6">
+                        <span class="text-gold font-bold text-base">Barba Terapia Completa</span>
+                        <p class="text-xs text-gray-300">Hidratação e relaxamento para a pele.</p>
+                    </div>
+                </div>
+                <!-- Card Galeria 3 -->
+                <div class="relative group overflow-hidden rounded-2xl border border-gold/20 aspect-square bg-black/50 flex items-center justify-center">
+                    <img src="image_7822db.jpg" alt="Estilo Moderno" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 opacity-80 group-hover:opacity-100">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent flex flex-col justify-end p-6">
+                        <span class="text-gold font-bold text-base">Corte Social & Estilizado</span>
+                        <p class="text-xs text-gray-300">Visual moderno para o dia a dia.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-10">
+                <a href="https://www.instagram.com/levy.barbeiro/" target="_blank" class="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 via-pink-600 to-yellow-500 hover:opacity-90 text-white font-bold px-8 py-3.5 rounded-xl transition text-sm shadow-lg">
+                    <i class="fa-brands fa-instagram text-lg"></i> Ver mais cortes no Instagram (@levy.barbeiro)
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sistema de Agendamento Interativo (Fase 1) -->
+    <section id="agendamento" class="py-20 bg-[#121212] relative">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 space-y-4">
+                <span class="text-gold text-xs font-bold uppercase tracking-widest bg-gold/10 px-3 py-1 rounded-full border border-gold/30">Agende seu Horário</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white">Marque seu Atendimento Online</h2>
+                <p class="text-gray-400">Escolha o serviço, data e horário com o Barbeiro Levy Roberto.</p>
+            </div>
+
+            <div class="bg-cardBg border border-gold/30 rounded-3xl p-6 sm:p-10 shadow-2xl">
+                <form id="booking-form" class="space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-300"><i class="fa-solid fa-user text-gold mr-2"></i> Seu Nome Completo</label>
+                            <input type="text" id="client-name" required placeholder="Ex: Carlos Silva" class="w-full bg-[#121212] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-gold transition">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-300"><i class="fa-brands fa-whatsapp text-gold mr-2"></i> WhatsApp para Confirmação</label>
+                            <input type="tel" id="client-phone" required placeholder="(84) 99999-9999" class="w-full bg-[#121212] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-gold transition">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-300"><i class="fa-solid fa-scissors text-gold mr-2"></i> Selecione o Serviço</label>
+                            <select id="service-select" required class="w-full bg-[#121212] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-gold transition">
+                                <option value="" disabled selected>Escolha um serviço...</option>
+                                <option value="Corte Degradê / Social - R$ 20,00">Corte (Social / Degradê / Navalhado) - R$ 20,00</option>
+                                <option value="Corte Só Máquina - R$ 15,00">Corte Só Máquina - R$ 15,00</option>
+                                <option value="Corte Só Tesoura / Infantil - R$ 25,00">Corte Só Tesoura / Infantil - R$ 25,00</option>
+                                <option value="Barba Simples - R$ 15,00">Barba Simples - R$ 15,00</option>
+                                <option value="Barba Terapia - R$ 18,00">Barba Terapia - R$ 18,00</option>
+                                <option value="Corte + Barba - R$ 35,00">Combo: Corte + Barba - R$ 35,00</option>
+                                <option value="Progressiva - R$ 50,00">Progressiva (a partir) - R$ 50,00</option>
+                                <option value="Luzes / Nevou - R$ 50,00">Luzes / Nevou - R$ 50,00</option>
+                                <option value="Sobrancelha - R$ 8,00/R$ 20,00">Sobrancelha - a partir de R$ 8,00</option>
+                            </select>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-300"><i class="fa-solid fa-user-tie text-gold mr-2"></i> Profissional</label>
+                            <select id="barber-select" class="w-full bg-[#121212] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-gold transition">
+                                <option value="Levy Roberto" selected>Levy Roberto (Fundador)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-300"><i class="fa-solid fa-calendar text-gold mr-2"></i> Data do Atendimento</label>
+                            <input type="date" id="booking-date" required class="w-full bg-[#121212] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-gold transition">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-300"><i class="fa-solid fa-clock text-gold mr-2"></i> Horário Disponível</label>
+                            <select id="booking-time" required class="w-full bg-[#121212] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-gold transition">
+                                <option value="" disabled selected>Selecione a data primeiro...</option>
+                                <option value="08:00">08:00</option>
+                                <option value="09:00">09:00</option>
+                                <option value="10:00">10:00</option>
+                                <option value="11:00">11:00</option>
+                                <option value="14:00">14:00</option>
+                                <option value="15:00">15:00</option>
+                                <option value="16:00">16:00</option>
+                                <option value="17:00">17:00</option>
+                                <option value="18:00">18:00</option>
+                                <option value="19:00">19:00</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-black font-bold py-4 rounded-xl transition shadow-xl shadow-gold/20 text-center uppercase tracking-wider text-sm flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-check-circle text-lg"></i> Confirmar Agendamento
+                    </button>
+                </form>
+
+                <div id="success-alert" class="hidden mt-6 bg-gold/10 border border-gold text-gold p-6 rounded-2xl text-center space-y-4">
+                    <div class="w-12 h-12 bg-gold text-black rounded-full flex items-center justify-center mx-auto text-xl font-bold">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white">Agendamento Realizado com Sucesso!</h3>
+                    <p id="success-details" class="text-sm text-gray-300"></p>
+                    <div class="pt-2">
+                        <a id="whatsapp-confirm-btn" href="#" target="_blank" class="inline-block bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-3 rounded-xl text-sm transition">
+                            <i class="fa-brands fa-whatsapp mr-2"></i> Enviar Confirmação para o WhatsApp do Levy
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Horários e Localização -->
+    <section id="contato" class="py-20 bg-cardBg border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <span class="text-gold text-xs font-bold uppercase tracking-widest bg-gold/10 px-3 py-1 rounded-full border border-gold/30">Onde Estamos</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white">Venha nos Visitar em <span class="text-gold">Pajuçara</span></h2>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Estamos localizados em um ponto de fácil acesso em Natal, prontos para cuidar do seu visual com conforto e agilidade.
+                    </p>
+
+                    <div class="space-y-4 pt-2">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-gold/10 border border-gold/30 text-gold flex items-center justify-center text-xl shrink-0">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold">Endereço</h4>
+                                <p class="text-gray-400 text-sm">Rua do Malhado, nº 260, Pajuçara, Natal - RN, CEP 59132-300</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-gold/10 border border-gold/30 text-gold flex items-center justify-center text-xl shrink-0">
+                                <i class="fa-solid fa-clock"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold">Horário de Atendimento</h4>
+                                <p class="text-gray-400 text-sm">Terça a Sexta: 08h às 12h | 14h às 20h</p>
+                                <p class="text-gray-400 text-sm">Sábado: 08:00 às 20:00</p>
+                                <p class="text-gray-400 text-sm">Domingo: 09:00 às 12:00</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-gold/10 border border-gold/30 text-gold flex items-center justify-center text-xl shrink-0">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold">Contato / WhatsApp</h4>
+                                <p class="text-gray-400 text-sm">(84) 98730-2952</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-[#121212] border border-gold/20 rounded-3xl p-8 space-y-6 shadow-xl">
+                    <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-calendar-days text-gold"></i> Horários Oficiais LR
+                    </h3>
+                    <div class="space-y-4 text-sm divide-y divide-white/10">
+                        <div class="flex justify-between pt-2">
+                            <span class="text-gray-300 font-medium">Terça a Sexta-feira</span>
+                            <span class="text-gold">08h às 12h & 14h às 20h</span>
+                        </div>
+                        <div class="flex justify-between pt-4">
+                            <span class="text-gray-300 font-medium">Sábado</span>
+                            <span class="text-gold">08:00 às 20:00</span>
+                        </div>
+                        <div class="flex justify-between pt-4">
+                            <span class="text-gray-300 font-medium">Domingo</span>
+                            <span class="text-gold">09:00 às 12:00</span>
+                        </div>
+                        <div class="flex justify-between pt-4">
+                            <span class="text-gray-300 font-medium">Segunda-feira</span>
+                            <span class="text-red-400">Fechado (Descanso)</span>
+                        </div>
+                    </div>
+                    <div class="pt-4">
+                        <a href="https://www.instagram.com/levy.barbeiro/" target="_blank" class="w-full bg-gradient-to-r from-purple-600 via-pink-600 to-yellow-500 hover:opacity-90 text-white font-bold py-3.5 rounded-xl transition flex items-center justify-center gap-2 text-sm shadow-lg">
+                            <i class="fa-brands fa-instagram text-lg"></i> Siga @levy.barbeiro no Instagram
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-8 border-t border-white/10 text-center text-xs text-gray-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-3">
+            <p>&copy; 2026 LR Barbearia - Levy Roberto. Todos os direitos reservados.</p>
+            <p>Rua do Malhado, 260, Pajuçara, Natal - RN | Fase 1 do Projeto de Automação & IA.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript para interatividade -->
+    <script>
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        const bookingForm = document.getElementById('booking-form');
+        const successAlert = document.getElementById('success-alert');
+        const successDetails = document.getElementById('success-details');
+        const whatsappConfirmBtn = document.getElementById('whatsapp-confirm-btn');
+
+        bookingForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('client-name').value;
+            const phone = document.getElementById('client-phone').value;
+            const service = document.getElementById('service-select').value;
+            const date = document.getElementById('booking-date').value;
+            const time = document.getElementById('booking-time').value;
+
+            const [year, month, day] = date.split('-');
+            const formattedDate = `${day}/${month}/${year}`;
+
+            successDetails.innerHTML = `Cliente: <strong>${name}</strong><br>Serviço: <strong>${service}</strong><br>Data: <strong>${formattedDate} às ${time}</strong>`;
+            
+            const msg = `Olá Levy! Gostaria de confirmar meu agendamento:%0A%0A*Cliente:* ${name}%0A*Telefone:* ${phone}%0A*Serviço:* ${service}%0A*Data:* ${formattedDate} às ${time}`;
+            whatsappConfirmBtn.href = `https://wa.me/5584987302952?text=${msg}`;
+
+            bookingForm.reset();
+            bookingForm.classList.add('hidden');
+            successAlert.classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>
