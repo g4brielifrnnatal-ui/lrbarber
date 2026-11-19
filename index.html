@@ -6,6 +6,8 @@
     <title>LR Barbearia | Levy Roberto - Pajuçara, Natal/RN</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Supabase JS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -172,7 +174,9 @@
             </div>
 
             <div id="dynamic-services-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Preenchido dinamicamente via JavaScript -->
+                <div class="col-span-full text-center py-8 text-gray-400 text-sm">
+                    <i class="fa-solid fa-spinner fa-spin text-gold mr-2"></i> Carregando tabela oficial de serviços...
+                </div>
             </div>
         </div>
     </section>
@@ -250,7 +254,9 @@
                             <span id="selected-count-badge" class="text-xs bg-gold/20 text-gold px-2.5 py-1 rounded-full font-semibold">0 selecionados</span>
                         </div>
                         
-                        <div id="multi-service-checkboxes" class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-72 overflow-y-auto p-4 bg-[#121212] border border-white/10 rounded-2xl"></div>
+                        <div id="multi-service-checkboxes" class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-72 overflow-y-auto p-4 bg-[#121212] border border-white/10 rounded-2xl">
+                            <p class="col-span-full text-center text-xs text-gray-400 py-4">Carregando serviços...</p>
+                        </div>
 
                         <div class="flex justify-between items-center bg-black/50 border border-gold/20 px-5 py-3.5 rounded-xl">
                             <span class="text-sm text-gray-300 font-medium">Valor Total Estimado:</span>
@@ -277,7 +283,7 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-black font-bold py-4 rounded-xl transition shadow-xl shadow-gold/20 text-center uppercase tracking-wider text-sm flex items-center justify-center gap-2">
+                    <button type="submit" id="submit-booking-btn" class="w-full bg-gold hover:bg-gold-dark text-black font-bold py-4 rounded-xl transition shadow-xl shadow-gold/20 text-center uppercase tracking-wider text-sm flex items-center justify-center gap-2">
                         <i class="fa-solid fa-check-circle text-lg"></i> Confirmar Agendamento
                     </button>
                 </form>
@@ -438,7 +444,7 @@
     </div>
 
     <!-- =====================================================================
-         MODAL 3: PAINEL DE GESTÃO DO LEVY
+         MODAL 3: PAINEL DE GESTÃO COMPLETO DO LEVY
     ====================================================================== -->
     <div id="admin-dashboard-modal" class="hidden fixed inset-0 z-50 bg-black/95 overflow-y-auto p-4 sm:p-8">
         <div class="max-w-6xl mx-auto bg-cardBg border border-gold/30 rounded-3xl shadow-2xl overflow-hidden">
@@ -447,10 +453,12 @@
                     <div class="w-10 h-10 rounded-xl bg-gold text-black flex items-center justify-center font-bold text-lg"><i class="fa-solid fa-crown"></i></div>
                     <div>
                         <h2 class="text-lg sm:text-xl font-bold text-white">Painel de Gestão - LR Barbearia</h2>
-                        <p class="text-xs text-gold">Levy Roberto</p>
+                        <p class="text-xs text-gold">Levy Roberto (Sincronizado na Nuvem)</p>
                     </div>
                 </div>
-                <button onclick="closeAdminDashboard()" class="bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 px-4 py-2 rounded-xl text-xs font-semibold transition">Sair</button>
+                <button onclick="closeAdminDashboard()" class="bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 px-4 py-2 rounded-xl text-xs font-semibold transition flex items-center gap-2">
+                    <i class="fa-solid fa-right-from-bracket"></i> Sair
+                </button>
             </div>
             <div class="flex border-b border-white/10 bg-[#161616] px-6">
                 <button onclick="switchAdminTab('agenda')" id="tab-btn-agenda" class="py-4 px-5 text-sm font-bold border-b-2 border-gold text-gold transition">Agenda & Atendimentos</button>
@@ -471,7 +479,7 @@
                         <label class="text-xs text-gray-400 mb-1">Filtrar por Data:</label>
                         <div class="flex gap-2">
                             <input type="date" id="admin-filter-date" onchange="renderAdminAgenda()" class="flex-1 bg-cardBg border border-gold/30 rounded-lg px-3 py-1.5 text-sm text-white">
-                            <button onclick="clearAdminDateFilter()" class="bg-white/10 text-xs px-3 py-1.5 rounded-lg text-gray-300">Todos</button>
+                            <button onclick="clearAdminDateFilter()" class="bg-white/10 hover:bg-white/20 text-xs px-3 py-1.5 rounded-lg text-gray-300">Todos</button>
                         </div>
                     </div>
                 </div>
@@ -480,22 +488,45 @@
             <!-- Aba 2: Serviços -->
             <div id="admin-tab-servicos" class="hidden p-6 sm:p-8 space-y-8">
                 <div class="bg-[#121212] border border-gold/30 rounded-2xl p-6 space-y-4">
-                    <h3 id="service-form-title" class="text-base font-bold text-gold">Adicionar Novo Serviço</h3>
+                    <h3 id="service-form-title" class="text-base font-bold text-gold flex items-center gap-2">
+                        <i class="fa-solid fa-plus-circle"></i> Adicionar Novo Serviço
+                    </h3>
                     <form id="admin-service-form" onsubmit="saveServiceItem(event)" class="grid grid-cols-1 sm:grid-cols-4 gap-4 items-end">
                         <input type="hidden" id="edit-service-id">
-                        <select id="service-category-input" required class="bg-cardBg border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white">
-                            <option value="Cortes">Cortes</option>
-                            <option value="Barba & Cera">Barba & Cera</option>
-                            <option value="Químicas & Hidratação">Químicas & Hidratação</option>
-                            <option value="Sobrancelha & Estética Facial">Sobrancelha & Estética Facial</option>
-                        </select>
-                        <input type="text" id="service-name-input" required placeholder="Nome do Serviço" class="bg-cardBg border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white">
-                        <input type="number" step="0.01" id="service-price-input" required placeholder="Valor (R$)" class="bg-cardBg border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white">
-                        <button type="submit" class="bg-gold text-black font-bold py-2.5 px-4 rounded-xl text-sm">Salvar</button>
+                        <div class="space-y-1">
+                            <label class="text-xs text-gray-400">Categoria</label>
+                            <select id="service-category-input" required class="w-full bg-cardBg border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white focus:border-gold focus:outline-none">
+                                <option value="Cortes">Cortes</option>
+                                <option value="Barba & Cera">Barba & Cera</option>
+                                <option value="Químicas & Hidratação">Químicas & Hidratação</option>
+                                <option value="Sobrancelha & Estética Facial">Sobrancelha & Estética Facial</option>
+                                <option value="Combos Especiais">Combos Especiais</option>
+                            </select>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-xs text-gray-400">Nome do Serviço</label>
+                            <input type="text" id="service-name-input" required placeholder="Ex: Corte + Barba" class="w-full bg-cardBg border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white focus:border-gold focus:outline-none">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-xs text-gray-400">Valor (R$)</label>
+                            <input type="number" step="0.01" min="0" id="service-price-input" required placeholder="Ex: 35.00" class="w-full bg-cardBg border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white focus:border-gold focus:outline-none">
+                        </div>
+                        <div class="flex gap-2">
+                            <button type="submit" id="save-service-btn" class="flex-1 bg-gold hover:bg-gold-dark text-black font-bold py-2.5 px-4 rounded-xl text-sm transition">Salvar</button>
+                            <button type="button" id="cancel-edit-service-btn" onclick="cancelEditService()" class="hidden bg-white/10 hover:bg-white/20 text-white py-2.5 px-3 rounded-xl text-sm transition">Cancelar</button>
+                        </div>
                     </form>
                 </div>
                 <div class="overflow-x-auto bg-[#121212] border border-white/10 rounded-2xl">
                     <table class="w-full text-left text-sm">
+                        <thead class="bg-black/60 text-gray-400 text-xs uppercase border-b border-white/10">
+                            <tr>
+                                <th class="px-5 py-3.5">Categoria</th>
+                                <th class="px-5 py-3.5">Serviço</th>
+                                <th class="px-5 py-3.5">Valor</th>
+                                <th class="px-5 py-3.5 text-right">Ações</th>
+                            </tr>
+                        </thead>
                         <tbody id="admin-services-table-body" class="divide-y divide-white/5"></tbody>
                     </table>
                 </div>
@@ -504,29 +535,15 @@
     </div>
 
     <script>
+        // =====================================================================
+        // CONFIGURAÇÃO DO SUPABASE (SINCRONIZAÇÃO GLOBAL NA NUVEM)
+        // =====================================================================
+        const SUPABASE_URL = 'https://uekmfwqujvkjgsbbgunl.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVla21md3F1anZramdzYmJndW5sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTUwOTM3MzcsImV4cCI6MjExMDY2OTczN30.klPvXfGnH0pi9k4-KuqLExzxfolT3M7K-8d_LNsh9gI';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
         const ADMIN_PASSWORD = "levy2026";
-        const DEFAULT_SERVICES = [
-            { id: 1, category: "Cortes", name: "Só Máquina", price: 15.00 },
-            { id: 2, category: "Cortes", name: "Social", price: 20.00 },
-            { id: 3, category: "Cortes", name: "Degradê", price: 20.00 },
-            { id: 4, category: "Cortes", name: "Navalhado", price: 20.00 },
-            { id: 5, category: "Cortes", name: "Só Tesoura", price: 25.00 },
-            { id: 6, category: "Cortes", name: "Infantil", price: 25.00 },
-            { id: 7, category: "Barba & Cera", name: "Barba Simples", price: 15.00 },
-            { id: 8, category: "Barba & Cera", name: "Barba Terapia", price: 18.00 },
-            { id: 9, category: "Barba & Cera", name: "Barba com Cera", price: 20.00 },
-            { id: 10, category: "Barba & Cera", name: "Pelos da Orelha", price: 8.00 },
-            { id: 11, category: "Barba & Cera", name: "Depilação Nasal", price: 5.00 },
-            { id: 12, category: "Químicas & Hidratação", name: "Progressiva (a partir)", price: 50.00 },
-            { id: 13, category: "Químicas & Hidratação", name: "Relaxamento", price: 35.00 },
-            { id: 14, category: "Químicas & Hidratação", name: "Luzes / Nevou", price: 50.00 },
-            { id: 15, category: "Químicas & Hidratação", name: "Hidratação", price: 15.00 },
-            { id: 16, category: "Químicas & Hidratação", name: "Super Hidratação", price: 20.00 },
-            { id: 17, category: "Sobrancelha & Estética Facial", name: "Sobrancelha (Gilete)", price: 8.00 },
-            { id: 18, category: "Sobrancelha & Estética Facial", name: "Sobrancelha (Cera ou Pinça)", price: 20.00 },
-            { id: 19, category: "Sobrancelha & Estética Facial", name: "Limpeza de Pele na Cera", price: 15.00 },
-            { id: 20, category: "Sobrancelha & Estética Facial", name: "Limpeza de Pele na Argila", price: 20.00 }
-        ];
+        let cachedServices = [];
 
         const ALL_TIME_SLOTS = [
             "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
@@ -534,32 +551,44 @@
             "18:00", "18:30", "19:00"
         ];
 
-        function getServices() {
-            const stored = localStorage.getItem('lr_barbearia_services');
-            if (!stored) { localStorage.setItem('lr_barbearia_services', JSON.stringify(DEFAULT_SERVICES)); return DEFAULT_SERVICES; }
-            return JSON.parse(stored);
+        function formatCurrency(val) {
+            return Number(val).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
         }
-        function saveServicesToStorage(services) {
-            localStorage.setItem('lr_barbearia_services', JSON.stringify(services));
+
+        function formatDateBR(dateStr) {
+            if (!dateStr) return "";
+            const [y, m, d] = dateStr.split('-');
+            return `${d}/${m}/${y}`;
+        }
+
+        // --- CARREGAMENTO DOS SERVIÇOS DA NUVEM ---
+        async function loadServicesFromCloud() {
+            const { data, error } = await supabaseClient
+                .from('services')
+                .select('*')
+                .order('id', { ascending: true });
+
+            if (error) {
+                console.error("Erro ao buscar serviços:", error);
+                return;
+            }
+            cachedServices = data || [];
             renderPublicServices();
             renderMultiSelectCheckboxes();
             renderAdminServicesTable();
         }
-        function getBookings() {
-            const stored = localStorage.getItem('lr_barbearia_bookings');
-            return stored ? JSON.parse(stored) : [];
-        }
-        function saveBookingsToStorage(bookings) { localStorage.setItem('lr_barbearia_bookings', JSON.stringify(bookings)); }
-        function formatCurrency(val) { return Number(val).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
-        function formatDateBR(dateStr) { if (!dateStr) return ""; const [y, m, d] = dateStr.split('-'); return `${d}/${m}/${y}`; }
 
         function renderPublicServices() {
-            const services = getServices();
             const grid = document.getElementById('dynamic-services-grid');
-            if(!grid) return;
+            if (!grid) return;
             grid.innerHTML = '';
 
-            const grouped = services.reduce((acc, item) => {
+            if (cachedServices.length === 0) {
+                grid.innerHTML = '<p class="col-span-full text-center text-gray-400 text-sm">Nenhum serviço cadastrado no momento.</p>';
+                return;
+            }
+
+            const grouped = cachedServices.reduce((acc, item) => {
                 if (!acc[item.category]) acc[item.category] = [];
                 acc[item.category].push(item);
                 return acc;
@@ -609,10 +638,9 @@
         }
 
         function renderMultiSelectCheckboxes() {
-            const services = getServices();
             const container = document.getElementById('multi-service-checkboxes');
-            if(!container) return;
-            container.innerHTML = services.map(s => `
+            if (!container) return;
+            container.innerHTML = cachedServices.map(s => `
                 <label class="flex items-center justify-between p-3 rounded-xl bg-cardBg border border-white/5 hover:border-gold/50 cursor-pointer transition select-none">
                     <div class="flex items-center gap-3">
                         <input type="checkbox" name="selected_services" value="${s.id}" data-name="${s.name}" data-price="${s.price}" onchange="calculateSelectedTotal()" class="w-4 h-4 accent-[#D4AF37] rounded cursor-pointer">
@@ -633,17 +661,32 @@
             checkboxes.forEach(cb => total += parseFloat(cb.dataset.price));
             const totalEl = document.getElementById('booking-total-price');
             const countEl = document.getElementById('selected-count-badge');
-            if(totalEl) totalEl.textContent = formatCurrency(total);
-            if(countEl) countEl.textContent = `${checkboxes.length} selecionado(s)`;
+            if (totalEl) totalEl.textContent = formatCurrency(total);
+            if (countEl) countEl.textContent = `${checkboxes.length} selecionado(s)`;
         }
 
-        function updateAvailableTimeSlots() {
+        // --- VERIFICAÇÃO DE HORÁRIOS DISPONÍVEIS NA NUVEM ---
+        async function updateAvailableTimeSlots() {
             const selectedDate = document.getElementById('booking-date').value;
             const timeSelect = document.getElementById('booking-time');
             if (!selectedDate || !timeSelect) return;
-            const bookings = getBookings().filter(b => b.date === selectedDate && b.status !== 'Cancelado');
-            const bookedTimes = bookings.map(b => b.time);
+
+            timeSelect.innerHTML = '<option value="" disabled selected>Verificando horários...</option>';
+
+            const { data, error } = await supabaseClient
+                .from('bookings')
+                .select('time, status')
+                .eq('date', selectedDate)
+                .neq('status', 'Cancelado');
+
+            if (error) {
+                console.error("Erro ao verificar horários:", error);
+                return;
+            }
+
+            const bookedTimes = (data || []).map(b => b.time);
             timeSelect.innerHTML = '<option value="" disabled selected>Escolha um horário...</option>';
+
             ALL_TIME_SLOTS.forEach(slot => {
                 const isBooked = bookedTimes.includes(slot);
                 const option = document.createElement('option');
@@ -654,23 +697,59 @@
             });
         }
 
+        // --- ENVIAR NOVO AGENDAMENTO PARA A NUVEM ---
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
         const bForm = document.getElementById('booking-form');
-        if(bForm) {
-            bForm.addEventListener('submit', function(e) {
+        if (bForm) {
+            bForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 const checkboxes = document.querySelectorAll('input[name="selected_services"]:checked');
-                if (checkboxes.length === 0) { alert("Selecione pelo menos um serviço!"); return; }
+                if (checkboxes.length === 0) {
+                    alert("Selecione pelo menos um serviço!");
+                    return;
+                }
+
+                const submitBtn = document.getElementById('submit-booking-btn');
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Salvando Agendamento...';
+
                 const name = document.getElementById('client-name').value.trim();
                 const phone = document.getElementById('client-phone').value.trim();
                 const date = document.getElementById('booking-date').value;
                 const time = document.getElementById('booking-time').value;
                 const selectedServices = [];
                 let totalPrice = 0;
-                checkboxes.forEach(cb => { selectedServices.push(cb.dataset.name); totalPrice += parseFloat(cb.dataset.price); });
-                
-                const bookings = getBookings();
-                bookings.push({ id: Date.now(), clientName: name, clientPhone: phone, services: selectedServices, totalPrice, date, time, status: 'Confirmado' });
-                saveBookingsToStorage(bookings);
+
+                checkboxes.forEach(cb => {
+                    selectedServices.push(cb.dataset.name);
+                    totalPrice += parseFloat(cb.dataset.price);
+                });
+
+                const { error } = await supabaseClient
+                    .from('bookings')
+                    .insert([{
+                        client_name: name,
+                        client_phone: phone,
+                        services: selectedServices,
+                        total_price: totalPrice,
+                        date: date,
+                        time: time,
+                        status: 'Confirmado'
+                    }]);
+
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fa-solid fa-check-circle text-lg"></i> Confirmar Agendamento';
+
+                if (error) {
+                    alert("Erro ao registrar agendamento. Tente novamente.");
+                    console.error(error);
+                    return;
+                }
 
                 const formattedDate = formatDateBR(date);
                 const servicesText = selectedServices.join(' + ');
@@ -700,44 +779,70 @@
             bForm.classList.remove('hidden');
         }
 
+        // --- CONSULTA E CANCELAMENTO PELO CLIENTE NA NUVEM ---
         function openClientAppointmentsModal() { document.getElementById('client-appointments-modal').classList.remove('hidden'); }
         function closeClientAppointmentsModal() { document.getElementById('client-appointments-modal').classList.add('hidden'); }
         
-        function searchClientBookings() {
+        async function searchClientBookings() {
             const rawPhone = document.getElementById('search-client-phone').value.replace(/\D/g, '');
             const resultsDiv = document.getElementById('client-bookings-results');
+
             if (rawPhone.length < 8) {
                 resultsDiv.innerHTML = '<p class="text-center text-xs text-red-400 py-4">Digite um número válido.</p>';
                 return;
             }
-            const bookings = getBookings().filter(b => b.clientPhone.replace(/\D/g, '').includes(rawPhone));
+
+            resultsDiv.innerHTML = '<p class="text-center text-xs text-gray-400 py-6"><i class="fa-solid fa-spinner fa-spin text-gold mr-2"></i> Buscando na agenda...</p>';
+
+            const { data, error } = await supabaseClient
+                .from('bookings')
+                .select('*')
+                .order('date', { ascending: false });
+
+            if (error) {
+                resultsDiv.innerHTML = '<p class="text-center text-xs text-red-400 py-4">Erro ao consultar agendamentos.</p>';
+                return;
+            }
+
+            const bookings = (data || []).filter(b => b.client_phone.replace(/\D/g, '').includes(rawPhone));
+
             if (bookings.length === 0) {
                 resultsDiv.innerHTML = '<p class="text-center text-xs text-gray-400 py-6">Nenhum agendamento encontrado.</p>';
                 return;
             }
-            resultsDiv.innerHTML = bookings.map(b => `
-                <div class="bg-[#121212] border border-white/10 p-4 rounded-2xl space-y-2">
-                    <div class="flex justify-between items-center">
-                        <span class="text-gold font-bold text-sm">${formatDateBR(b.date)} às ${b.time}</span>
-                        <span class="text-[11px] px-2 py-0.5 rounded-full ${b.status === 'Cancelado' ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}">${b.status}</span>
+
+            resultsDiv.innerHTML = bookings.map(b => {
+                const servicesList = Array.isArray(b.services) ? b.services.join(', ') : b.services;
+                return `
+                    <div class="bg-[#121212] border border-white/10 p-4 rounded-2xl space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="text-gold font-bold text-sm">${formatDateBR(b.date)} às ${b.time}</span>
+                            <span class="text-[11px] px-2 py-0.5 rounded-full ${b.status === 'Cancelado' ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}">${b.status}</span>
+                        </div>
+                        <p class="text-xs text-gray-300"><strong>Serviços:</strong> ${servicesList}</p>
+                        <div class="flex justify-between items-center pt-1">
+                            <span class="text-xs font-bold text-white">Total: ${formatCurrency(b.total_price)}</span>
+                            ${b.status !== 'Cancelado' ? `<button onclick="cancelBookingByClient(${b.id})" class="text-xs text-red-400 hover:underline">Cancelar</button>` : ''}
+                        </div>
                     </div>
-                    <p class="text-xs text-gray-300"><strong>Serviços:</strong> ${b.services.join(', ')}</p>
-                    <div class="flex justify-between items-center pt-1">
-                        <span class="text-xs font-bold text-white">Total: ${formatCurrency(b.totalPrice)}</span>
-                        ${b.status !== 'Cancelado' ? `<button onclick="cancelBookingByClient(${b.id})" class="text-xs text-red-400 hover:underline">Cancelar</button>` : ''}
-                    </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
-        function cancelBookingByClient(bookingId) {
+        async function cancelBookingByClient(bookingId) {
             if (!confirm("Deseja cancelar este agendamento?")) return;
-            const bookings = getBookings().map(b => b.id === bookingId ? { ...b, status: 'Cancelado' } : b);
-            saveBookingsToStorage(bookings);
-            searchClientBookings();
-            updateAvailableTimeSlots();
+            const { error } = await supabaseClient
+                .from('bookings')
+                .update({ status: 'Cancelado' })
+                .eq('id', bookingId);
+
+            if (!error) {
+                searchClientBookings();
+                updateAvailableTimeSlots();
+            }
         }
 
+        // --- PAINEL ADMINISTRATIVO DO LEVY NA NUVEM ---
         function openAdminAuthModal() { document.getElementById('admin-auth-modal').classList.remove('hidden'); document.getElementById('admin-password-input').focus(); }
         function closeAdminAuthModal() { document.getElementById('admin-auth-modal').classList.add('hidden'); document.getElementById('admin-auth-error').classList.add('hidden'); document.getElementById('admin-password-input').value = ''; }
         
@@ -789,65 +894,81 @@
             renderAdminAgenda();
         }
 
-        function renderAdminAgenda() {
+        async function renderAdminAgenda() {
             const filterDate = document.getElementById('admin-filter-date').value;
-            let bookings = getBookings();
-            if (filterDate) bookings = bookings.filter(b => b.date === filterDate);
-            bookings.sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
+            const listDiv = document.getElementById('admin-bookings-list');
+            listDiv.innerHTML = '<div class="p-6 text-center text-xs text-gray-400"><i class="fa-solid fa-spinner fa-spin text-gold mr-2"></i> Carregando agendamentos...</div>';
 
+            let query = supabaseClient
+                .from('bookings')
+                .select('*')
+                .order('date', { ascending: true })
+                .order('time', { ascending: true });
+
+            if (filterDate) {
+                query = query.eq('date', filterDate);
+            }
+
+            const { data, error } = await query;
+            if (error) {
+                listDiv.innerHTML = '<div class="p-6 text-center text-xs text-red-400">Erro ao carregar agenda.</div>';
+                return;
+            }
+
+            const bookings = data || [];
             const activeBookings = bookings.filter(b => b.status !== 'Cancelado');
-            const totalRevenue = activeBookings.reduce((sum, b) => sum + b.totalPrice, 0);
+            const totalRevenue = activeBookings.reduce((sum, b) => sum + Number(b.total_price), 0);
 
             document.getElementById('kpi-total-bookings').textContent = activeBookings.length;
             document.getElementById('kpi-total-revenue').textContent = formatCurrency(totalRevenue);
 
-            const listDiv = document.getElementById('admin-bookings-list');
             if (bookings.length === 0) {
                 listDiv.innerHTML = '<div class="bg-[#121212] border border-white/5 rounded-2xl p-8 text-center text-sm text-gray-500">Nenhum agendamento encontrado.</div>';
                 return;
             }
 
-            listDiv.innerHTML = bookings.map(b => `
-                <div class="bg-[#121212] border border-white/10 p-5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div class="space-y-1">
-                        <div class="flex items-center gap-3">
-                            <span class="bg-gold/20 text-gold font-bold px-2.5 py-1 rounded-lg text-xs">${formatDateBR(b.date)} • ${b.time}</span>
-                            <h4 class="text-white font-bold text-base">${b.clientName}</h4>
-                            <span class="text-[11px] px-2 py-0.5 rounded-full ${b.status === 'Concluído' ? 'bg-blue-500/20 text-blue-400' : b.status === 'Cancelado' ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}">${b.status}</span>
+            listDiv.innerHTML = bookings.map(b => {
+                const servicesList = Array.isArray(b.services) ? b.services.join(', ') : b.services;
+                return `
+                    <div class="bg-[#121212] border border-white/10 p-5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div class="space-y-1">
+                            <div class="flex items-center gap-3">
+                                <span class="bg-gold/20 text-gold font-bold px-2.5 py-1 rounded-lg text-xs">${formatDateBR(b.date)} • ${b.time}</span>
+                                <h4 class="text-white font-bold text-base">${b.client_name}</h4>
+                                <span class="text-[11px] px-2 py-0.5 rounded-full ${b.status === 'Concluído' ? 'bg-blue-500/20 text-blue-400' : b.status === 'Cancelado' ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}">${b.status}</span>
+                            </div>
+                            <p class="text-xs text-gray-400"><i class="fa-brands fa-whatsapp text-green-500 mr-1"></i> ${b.client_phone} • <strong>Serviços:</strong> ${servicesList}</p>
                         </div>
-                        <p class="text-xs text-gray-400"><i class="fa-brands fa-whatsapp text-green-500 mr-1"></i> ${b.clientPhone} • <strong>Serviços:</strong> ${b.services.join(', ')}</p>
+                        <div class="flex items-center justify-between sm:justify-end gap-3 border-t sm:border-0 border-white/10 pt-3 sm:pt-0">
+                            <span class="text-gold font-extrabold text-base mr-2">${formatCurrency(b.total_price)}</span>
+                            ${b.status === 'Confirmado' ? `
+                                <button onclick="updateBookingStatus(${b.id}, 'Concluído')" class="bg-green-600/20 hover:bg-green-600/40 text-green-400 px-3 py-1.5 rounded-lg text-xs font-semibold transition">Concluir</button>
+                                <button onclick="updateBookingStatus(${b.id}, 'Cancelado')" class="bg-red-600/20 hover:bg-red-600/40 text-red-400 px-3 py-1.5 rounded-lg text-xs font-semibold transition">Cancelar</button>
+                            ` : ''}
+                            <button onclick="deleteBooking(${b.id})" class="text-gray-500 hover:text-red-400 px-2 py-1 text-xs"><i class="fa-solid fa-trash"></i></button>
+                        </div>
                     </div>
-                    <div class="flex items-center justify-between sm:justify-end gap-3 border-t sm:border-0 border-white/10 pt-3 sm:pt-0">
-                        <span class="text-gold font-extrabold text-base mr-2">${formatCurrency(b.totalPrice)}</span>
-                        ${b.status === 'Confirmado' ? `
-                            <button onclick="updateBookingStatus(${b.id}, 'Concluído')" class="bg-green-600/20 hover:bg-green-600/40 text-green-400 px-3 py-1.5 rounded-lg text-xs font-semibold transition">Concluir</button>
-                            <button onclick="updateBookingStatus(${b.id}, 'Cancelado')" class="bg-red-600/20 hover:bg-red-600/40 text-red-400 px-3 py-1.5 rounded-lg text-xs font-semibold transition">Cancelar</button>
-                        ` : ''}
-                        <button onclick="deleteBooking(${b.id})" class="text-gray-500 hover:text-red-400 px-2 py-1 text-xs"><i class="fa-solid fa-trash"></i></button>
-                    </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
-        function updateBookingStatus(id, newStatus) {
-            const bookings = getBookings().map(b => b.id === id ? { ...b, status: newStatus } : b);
-            saveBookingsToStorage(bookings);
+        async function updateBookingStatus(id, newStatus) {
+            await supabaseClient.from('bookings').update({ status: newStatus }).eq('id', id);
             renderAdminAgenda();
             updateAvailableTimeSlots();
         }
 
-        function deleteBooking(id) {
+        async function deleteBooking(id) {
             if (!confirm("Deseja excluir permanentemente este agendamento?")) return;
-            const bookings = getBookings().filter(b => b.id !== id);
-            saveBookingsToStorage(bookings);
+            await supabaseClient.from('bookings').delete().eq('id', id);
             renderAdminAgenda();
             updateAvailableTimeSlots();
         }
 
         function renderAdminServicesTable() {
-            const services = getServices();
             const tbody = document.getElementById('admin-services-table-body');
-            tbody.innerHTML = services.map(s => `
+            if (!tbody) return;
+            tbody.innerHTML = cachedServices.map(s => `
                 <tr class="hover:bg-white/5 transition">
                     <td class="px-5 py-3.5 text-xs text-gray-400">${s.category}</td>
                     <td class="px-5 py-3.5 font-medium text-white">${s.name}</td>
@@ -860,26 +981,37 @@
             `).join('');
         }
 
-        function saveServiceItem(e) {
+        async function saveServiceItem(e) {
             e.preventDefault();
             const idInput = document.getElementById('edit-service-id').value;
             const category = document.getElementById('service-category-input').value;
             const name = document.getElementById('service-name-input').value.trim();
             const price = parseFloat(document.getElementById('service-price-input').value);
 
-            let services = getServices();
+            const saveBtn = document.getElementById('save-service-btn');
+            saveBtn.disabled = true;
+            saveBtn.textContent = "Salvando...";
+
             if (idInput) {
                 const id = parseInt(idInput);
-                services = services.map(s => s.id === id ? { ...s, category, name, price } : s);
+                await supabaseClient
+                    .from('services')
+                    .update({ category, name, price })
+                    .eq('id', id);
             } else {
-                services.push({ id: Date.now(), category, name, price });
+                await supabaseClient
+                    .from('services')
+                    .insert([{ category, name, price }]);
             }
-            saveServicesToStorage(services);
+
+            saveBtn.disabled = false;
+            saveBtn.textContent = "Salvar";
             cancelEditService();
+            await loadServicesFromCloud();
         }
 
         function editServiceItem(id) {
-            const service = getServices().find(s => s.id === id);
+            const service = cachedServices.find(s => s.id === id);
             if (!service) return;
             document.getElementById('edit-service-id').value = service.id;
             document.getElementById('service-category-input').value = service.category;
@@ -896,20 +1028,34 @@
             document.getElementById('cancel-edit-service-btn').classList.add('hidden');
         }
 
-        function deleteServiceItem(id) {
+        async function deleteServiceItem(id) {
             if (!confirm("Deseja excluir este serviço?")) return;
-            const services = getServices().filter(s => s.id !== id);
-            saveServicesToStorage(services);
+            await supabaseClient.from('services').delete().eq('id', id);
+            await loadServicesFromCloud();
         }
 
-        // --- INICIALIZAÇÃO E GATILHO DO LINK SECRETO (#admin) ---
+        // --- INICIALIZAÇÃO E SINCRONIZAÇÃO EM TEMPO REAL ---
         const todayStr = new Date().toISOString().split('T')[0];
         document.getElementById('booking-date').setAttribute('min', todayStr);
 
-        renderPublicServices();
-        renderMultiSelectCheckboxes();
+        // Carrega os dados da nuvem ao abrir o site
+        loadServicesFromCloud();
 
-        // Se o Levy acessar com #admin no final do link, abre direto o modal de senha
+        // Escuta alterações em tempo real no Supabase (se o Levy mudar algo no Safari, atualiza no Chrome na hora)
+        supabaseClient
+            .channel('public:changes')
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'services' }, () => {
+                loadServicesFromCloud();
+            })
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'bookings' }, () => {
+                updateAvailableTimeSlots();
+                if (!document.getElementById('admin-dashboard-modal').classList.contains('hidden')) {
+                    renderAdminAgenda();
+                }
+            })
+            .subscribe();
+
+        // Gatilho do link secreto (#admin)
         if (window.location.hash === '#admin') {
             openAdminAuthModal();
         }
