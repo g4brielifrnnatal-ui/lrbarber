@@ -237,11 +237,11 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         <div class="space-y-2">
                             <label class="block text-sm font-medium text-gray-300"><i class="fa-solid fa-user text-gold mr-2"></i>Nome Completo</label>
-                            <input type="text" id="client-name" required placeholder="Nome" class="w-full bg-[#121212] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-gold transition">
+                            <input type="text" id="client-name" required maxlength="100" placeholder="Nome" class="w-full bg-[#121212] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-gold transition">
                         </div>
                         <div class="space-y-2">
                             <label class="block text-sm font-medium text-gray-300"><i class="fa-brands fa-whatsapp text-gold mr-2"></i> WhatsApp para Confirmação</label>
-                            <input type="tel" id="client-phone" required placeholder="(84) 99999-9999" class="w-full bg-[#121212] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-gold transition">
+                            <input type="tel" id="client-phone" required maxlength="25" placeholder="(84) 99999-9999" class="w-full bg-[#121212] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-gold transition">
                         </div>
                     </div>
 
@@ -281,6 +281,16 @@
                                 <option value="" disabled selected>Selecione a data...</option>
                             </select>
                         </div>
+                    </div>
+
+                    <!-- Consentimento LGPD -->
+                    <div class="bg-[#121212] border border-white/10 rounded-2xl p-4">
+                        <label class="flex items-start gap-3 cursor-pointer select-none">
+                            <input type="checkbox" id="lgpd-consent" required class="mt-1 w-4 h-4 accent-[#D4AF37] rounded cursor-pointer shrink-0">
+                            <span class="text-xs text-gray-400 leading-relaxed">
+                                Declaro que concordo com o tratamento do meu nome e WhatsApp exclusivamente para agendamento, confirmação e gestão do meu atendimento na LR Barbearia, nos termos da <button type="button" onclick="openPrivacyModal()" class="text-gold underline hover:text-gold-light">Política de Privacidade e LGPD</button>.
+                            </span>
+                        </label>
                     </div>
 
                     <button type="submit" id="submit-booking-btn" class="w-full bg-gold hover:bg-gold-dark text-black font-bold py-4 rounded-xl transition shadow-xl shadow-gold/20 text-center uppercase tracking-wider text-sm flex items-center justify-center gap-2">
@@ -385,7 +395,7 @@
         </div>
     </section>
 
-    <!-- Footer com Atalho Discreto para o Painel -->
+    <!-- Footer com Atalho Discreto para o Painel e Política de Privacidade -->
     <footer class="bg-black py-8 border-t border-white/10 text-center text-xs text-gray-500">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-3">
             <p>
@@ -393,11 +403,40 @@
                 LR Barbearia - Levy Roberto. Todos os direitos reservados.
             </p>
             <p>Rua do Malhado, 260, Pajuçara, Natal - RN</p>
+            <p>
+                <button type="button" onclick="openPrivacyModal()" class="text-gray-400 hover:text-gold underline transition">
+                    Política de Privacidade e LGPD
+                </button>
+            </p>
         </div>
     </footer>
 
     <!-- =====================================================================
-         MODAL 1: CONSULTAR AGENDAMENTOS (PARA OS CLIENTES)
+         MODAL PRIVACIDADE & LGPD
+    ====================================================================== -->
+    <div id="privacy-modal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-cardBg border border-gold/30 rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl space-y-4 relative max-h-[85vh] overflow-y-auto">
+            <button onclick="closePrivacyModal()" class="absolute top-5 right-5 text-gray-400 hover:text-white text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-shield-halved text-gold"></i> Política de Privacidade e LGPD
+            </h3>
+            <div class="text-xs text-gray-300 space-y-3 leading-relaxed">
+                <p>A <strong>LR Barbearia (Levy Roberto)</strong> respeita a sua privacidade e trata os dados pessoais em conformidade com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018 - LGPD).</p>
+                <p><strong>1. Dados coletados:</strong> Nome completo e número de WhatsApp informados no formulário de agendamento, além dos serviços, data e horário escolhidos.</p>
+                <p><strong>2. Finalidade:</strong> Exclusivamente organizar a agenda de atendimentos, evitar conflitos de horários e enviar confirmações ou comunicações referentes ao serviço solicitado.</p>
+                <p><strong>3. Segurança e acesso:</strong> Os dados são armazenados em banco de dados protegido e o acesso administrativo é restrito por autenticação.</p>
+                <p><strong>4. Seus direitos:</strong> Você pode consultar ou cancelar seus agendamentos pelo site ou solicitar correção/exclusão dos seus dados pelo WhatsApp oficial <strong class="text-gold">(84) 98730-2952</strong>.</p>
+            </div>
+            <div class="pt-2 text-right">
+                <button onclick="closePrivacyModal()" class="bg-gold hover:bg-gold-dark text-black font-bold px-6 py-2.5 rounded-xl text-xs transition">Entendi</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- =====================================================================
+         MODAL 1: CONSULTAR AGENDAMENTOS (PARA OS CLIENTES - PROTEGIDO)
     ====================================================================== -->
     <div id="client-appointments-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-cardBg border border-gold/30 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl space-y-6 relative">
@@ -408,20 +447,20 @@
                 <h3 class="text-2xl font-bold text-white flex items-center gap-2">
                     <i class="fa-regular fa-calendar-check text-gold"></i> Ver Agendamentos
                 </h3>
-                <p class="text-xs text-gray-400">Digite o WhatsApp utilizado na marcação para visualizar ou cancelar seus horários.</p>
+                <p class="text-xs text-gray-400">Digite o WhatsApp completo (com DDD) utilizado na marcação para visualizar ou cancelar seus horários.</p>
             </div>
             <div class="flex gap-2">
-                <input type="tel" id="search-client-phone" placeholder="Ex: 84999999999" class="flex-1 bg-[#121212] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-gold">
+                <input type="tel" id="search-client-phone" placeholder="Ex: (84) 99999-9999" class="flex-1 bg-[#121212] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-gold">
                 <button onclick="searchClientBookings()" class="bg-gold hover:bg-gold-dark text-black font-bold px-5 py-3 rounded-xl text-sm transition">Buscar</button>
             </div>
             <div id="client-bookings-results" class="space-y-3 max-h-72 overflow-y-auto pr-1">
-                <p class="text-center text-xs text-gray-500 py-6">Informe seu número acima para consultar.</p>
+                <p class="text-center text-xs text-gray-500 py-6">Informe seu número completo com DDD acima para consultar.</p>
             </div>
         </div>
     </div>
 
     <!-- =====================================================================
-         MODAL 2: LOGIN DE ACESSO RESTRITO DO LEVY
+         MODAL 2: LOGIN AUTENTICADO DO LEVY (SUPABASE AUTH)
     ====================================================================== -->
     <div id="admin-auth-modal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-cardBg border border-gold/40 rounded-3xl max-w-sm w-full p-8 shadow-2xl space-y-6 relative text-center">
@@ -433,12 +472,19 @@
             </div>
             <div class="space-y-1">
                 <h3 class="text-xl font-bold text-white">Área Exclusiva - Levy</h3>
-                <p class="text-xs text-gray-400">Digite a senha de administrador.</p>
+                <p class="text-xs text-gray-400">Entre com sua conta de administrador.</p>
             </div>
-            <form onsubmit="verifyAdminPassword(event)" class="space-y-4">
-                <input type="password" id="admin-password-input" required placeholder="Senha..." class="w-full bg-[#121212] border border-white/10 rounded-xl px-4 py-3 text-center text-white focus:outline-none focus:border-gold">
-                <p id="admin-auth-error" class="hidden text-xs text-red-400">Senha incorreta.</p>
-                <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-black font-bold py-3 rounded-xl text-sm transition">Entrar</button>
+            <form onsubmit="verifyAdminPassword(event)" class="space-y-4 text-left">
+                <div class="space-y-1">
+                    <label class="text-xs text-gray-400">E-mail</label>
+                    <input type="email" id="admin-email-input" required placeholder="levy@lrbarbearia.com" class="w-full bg-[#121212] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-gold">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-xs text-gray-400">Senha</label>
+                    <input type="password" id="admin-password-input" required placeholder="••••••••" class="w-full bg-[#121212] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-gold">
+                </div>
+                <p id="admin-auth-error" class="hidden text-xs text-red-400 text-center">E-mail ou senha incorretos.</p>
+                <button type="submit" id="admin-login-btn" class="w-full bg-gold hover:bg-gold-dark text-black font-bold py-3 rounded-xl text-sm transition">Entrar</button>
             </form>
         </div>
     </div>
@@ -453,7 +499,7 @@
                     <div class="w-10 h-10 rounded-xl bg-gold text-black flex items-center justify-center font-bold text-lg"><i class="fa-solid fa-crown"></i></div>
                     <div>
                         <h2 class="text-lg sm:text-xl font-bold text-white">Painel de Gestão - LR Barbearia</h2>
-                        <p class="text-xs text-gold">Levy Roberto (Sincronizado na Nuvem)</p>
+                        <p class="text-xs text-gold">Levy Roberto • Sessão Autenticada & LGPD Ativa</p>
                     </div>
                 </div>
                 <button onclick="closeAdminDashboard()" class="bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 px-4 py-2 rounded-xl text-xs font-semibold transition flex items-center gap-2">
@@ -536,13 +582,12 @@
 
     <script>
         // =====================================================================
-        // CONFIGURAÇÃO DO SUPABASE (SINCRONIZAÇÃO GLOBAL NA NUVEM)
+        // CONFIGURAÇÃO DO SUPABASE (SEM SENHA HARDCODED NO FRONTEND)
         // =====================================================================
         const SUPABASE_URL = 'https://uekmfwqujvkjgsbbgunl.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVla21md3F1anZramdzYmJndW5sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTUwOTM3MzcsImV4cCI6MjExMDY2OTczN30.klPvXfGnH0pi9k4-KuqLExzxfolT3M7K-8d_LNsh9gI';
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        const ADMIN_PASSWORD = "levy2026";
         let cachedServices = [];
 
         const ALL_TIME_SLOTS = [
@@ -560,6 +605,19 @@
             const [y, m, d] = dateStr.split('-');
             return `${d}/${m}/${y}`;
         }
+
+        function escapeHtml(text) {
+            return String(text || '')
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        // --- MODAL PRIVACIDADE LGPD ---
+        function openPrivacyModal() { document.getElementById('privacy-modal').classList.remove('hidden'); }
+        function closePrivacyModal() { document.getElementById('privacy-modal').classList.add('hidden'); }
 
         // --- CARREGAMENTO DOS SERVIÇOS DA NUVEM ---
         async function loadServicesFromCloud() {
@@ -609,26 +667,26 @@
 
                 if (isWideCard) {
                     const itemsHtml = grouped[category].map(s => `
-                        <div class="flex justify-between items-center"><span class="text-gray-300">${s.name}</span> <span class="text-gold font-bold">${formatCurrency(s.price)}</span></div>
+                        <div class="flex justify-between items-center"><span class="text-gray-300">${escapeHtml(s.name)}</span> <span class="text-gold font-bold">${formatCurrency(s.price)}</span></div>
                     `).join('');
                     grid.innerHTML += `
                         <div class="bg-cardBg border border-gold/20 rounded-2xl p-6 shadow-xl space-y-4 md:col-span-2 lg:col-span-3 max-w-2xl mx-auto w-full">
                             <div class="flex items-center gap-3 border-b border-white/10 pb-4">
                                 <i class="fa-solid ${iconClass} text-gold text-xl"></i>
-                                <h3 class="text-xl font-bold text-white">${category}</h3>
+                                <h3 class="text-xl font-bold text-white">${escapeHtml(category)}</h3>
                             </div>
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">${itemsHtml}</div>
                         </div>
                     `;
                 } else {
                     const itemsHtml = grouped[category].map(s => `
-                        <li class="flex justify-between items-center"><span class="text-gray-300">${s.name}</span> <span class="text-gold font-bold">${formatCurrency(s.price)}</span></li>
+                        <li class="flex justify-between items-center"><span class="text-gray-300">${escapeHtml(s.name)}</span> <span class="text-gold font-bold">${formatCurrency(s.price)}</span></li>
                     `).join('');
                     grid.innerHTML += `
                         <div class="bg-cardBg border border-gold/20 rounded-2xl p-6 shadow-xl space-y-4">
                             <div class="flex items-center gap-3 border-b border-white/10 pb-4">
                                 <i class="fa-solid ${iconClass} text-gold text-xl"></i>
-                                <h3 class="text-xl font-bold text-white">${category}</h3>
+                                <h3 class="text-xl font-bold text-white">${escapeHtml(category)}</h3>
                             </div>
                             <ul class="space-y-3 text-sm">${itemsHtml}</ul>
                         </div>
@@ -643,10 +701,10 @@
             container.innerHTML = cachedServices.map(s => `
                 <label class="flex items-center justify-between p-3 rounded-xl bg-cardBg border border-white/5 hover:border-gold/50 cursor-pointer transition select-none">
                     <div class="flex items-center gap-3">
-                        <input type="checkbox" name="selected_services" value="${s.id}" data-name="${s.name}" data-price="${s.price}" onchange="calculateSelectedTotal()" class="w-4 h-4 accent-[#D4AF37] rounded cursor-pointer">
+                        <input type="checkbox" name="selected_services" value="${s.id}" data-name="${escapeHtml(s.name)}" data-price="${s.price}" onchange="calculateSelectedTotal()" class="w-4 h-4 accent-[#D4AF37] rounded cursor-pointer">
                         <div>
-                            <p class="text-sm font-medium text-white">${s.name}</p>
-                            <span class="text-[11px] text-gray-400">${s.category}</span>
+                            <p class="text-sm font-medium text-white">${escapeHtml(s.name)}</p>
+                            <span class="text-[11px] text-gray-400">${escapeHtml(s.category)}</span>
                         </div>
                     </div>
                     <span class="text-xs font-bold text-gold">${formatCurrency(s.price)}</span>
@@ -665,7 +723,7 @@
             if (countEl) countEl.textContent = `${checkboxes.length} selecionado(s)`;
         }
 
-        // --- VERIFICAÇÃO DE HORÁRIOS DISPONÍVEIS NA NUVEM ---
+        // --- VERIFICAÇÃO SEGURA DE HORÁRIOS OCUPADOS VIA RPC ---
         async function updateAvailableTimeSlots() {
             const selectedDate = document.getElementById('booking-date').value;
             const timeSelect = document.getElementById('booking-time');
@@ -674,17 +732,15 @@
             timeSelect.innerHTML = '<option value="" disabled selected>Verificando horários...</option>';
 
             const { data, error } = await supabaseClient
-                .from('bookings')
-                .select('time, status')
-                .eq('date', selectedDate)
-                .neq('status', 'Cancelado');
+                .rpc('get_booked_slots', { p_date: selectedDate });
 
             if (error) {
                 console.error("Erro ao verificar horários:", error);
+                timeSelect.innerHTML = '<option value="" disabled selected>Erro ao carregar horários</option>';
                 return;
             }
 
-            const bookedTimes = (data || []).map(b => b.time);
+            const bookedTimes = (data || []).map(row => row.booked_time);
             timeSelect.innerHTML = '<option value="" disabled selected>Escolha um horário...</option>';
 
             ALL_TIME_SLOTS.forEach(slot => {
@@ -697,13 +753,13 @@
             });
         }
 
-        // --- ENVIAR NOVO AGENDAMENTO PARA A NUVEM ---
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         mobileMenuBtn.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
         });
 
+        // --- ENVIAR NOVO AGENDAMENTO PARA A NUVEM ---
         const bForm = document.getElementById('booking-form');
         if (bForm) {
             bForm.addEventListener('submit', async function(e) {
@@ -711,6 +767,18 @@
                 const checkboxes = document.querySelectorAll('input[name="selected_services"]:checked');
                 if (checkboxes.length === 0) {
                     alert("Selecione pelo menos um serviço!");
+                    return;
+                }
+
+                const consentChecked = document.getElementById('lgpd-consent').checked;
+                if (!consentChecked) {
+                    alert("É necessário concordar com a Política de Privacidade e LGPD para agendar.");
+                    return;
+                }
+
+                const rawPhone = document.getElementById('client-phone').value.replace(/\D/g, '');
+                if (rawPhone.length < 10) {
+                    alert("Por favor, informe um número de WhatsApp válido com DDD (ex: 84999999999).");
                     return;
                 }
 
@@ -746,8 +814,9 @@
                 submitBtn.innerHTML = '<i class="fa-solid fa-check-circle text-lg"></i> Confirmar Agendamento';
 
                 if (error) {
-                    alert("Erro ao registrar agendamento. Tente novamente.");
+                    alert("Não foi possível registrar o agendamento. Verifique se o horário ainda está disponível.");
                     console.error(error);
+                    updateAvailableTimeSlots();
                     return;
                 }
 
@@ -755,13 +824,13 @@
                 const servicesText = selectedServices.join(' + ');
 
                 document.getElementById('success-details').innerHTML = `
-                    <p>Cliente: <strong>${name}</strong></p>
-                    <p>Serviços: <strong>${servicesText}</strong></p>
-                    <p>Data: <strong>${formattedDate} às ${time}</strong></p>
+                    <p>Cliente: <strong>${escapeHtml(name)}</strong></p>
+                    <p>Serviços: <strong>${escapeHtml(servicesText)}</strong></p>
+                    <p>Data: <strong>${formattedDate} às ${escapeHtml(time)}</strong></p>
                     <p class="text-gold font-bold text-base pt-1">Total: ${formatCurrency(totalPrice)}</p>
                 `;
                 
-                const msg = `Olá Levy! Gostaria de confirmar meu agendamento:%0A%0A*Cliente:* ${name}%0A*Telefone:* ${phone}%0A*Serviços:* ${servicesText}%0A*Data:* ${formattedDate} às ${time}%0A*Total:* ${formatCurrency(totalPrice)}`;
+                const msg = `Olá Levy! Gostaria de confirmar meu agendamento:%0A%0A*Cliente:* ${encodeURIComponent(name)}%0A*Telefone:* ${encodeURIComponent(phone)}%0A*Serviços:* ${encodeURIComponent(servicesText)}%0A*Data:* ${formattedDate} às ${time}%0A*Total:* ${encodeURIComponent(formatCurrency(totalPrice))}`;
                 document.getElementById('whatsapp-confirm-btn').href = `https://wa.me/5584987302952?text=${msg}`;
 
                 bForm.reset();
@@ -779,7 +848,7 @@
             bForm.classList.remove('hidden');
         }
 
-        // --- CONSULTA E CANCELAMENTO PELO CLIENTE NA NUVEM ---
+        // --- CONSULTA E CANCELAMENTO SEGURO PELO CLIENTE (VIA RPC) ---
         function openClientAppointmentsModal() { document.getElementById('client-appointments-modal').classList.remove('hidden'); }
         function closeClientAppointmentsModal() { document.getElementById('client-appointments-modal').classList.add('hidden'); }
         
@@ -787,27 +856,25 @@
             const rawPhone = document.getElementById('search-client-phone').value.replace(/\D/g, '');
             const resultsDiv = document.getElementById('client-bookings-results');
 
-            if (rawPhone.length < 8) {
-                resultsDiv.innerHTML = '<p class="text-center text-xs text-red-400 py-4">Digite um número válido.</p>';
+            if (rawPhone.length < 10) {
+                resultsDiv.innerHTML = '<p class="text-center text-xs text-red-400 py-4">Digite seu WhatsApp completo com DDD (mínimo 10 dígitos).</p>';
                 return;
             }
 
             resultsDiv.innerHTML = '<p class="text-center text-xs text-gray-400 py-6"><i class="fa-solid fa-spinner fa-spin text-gold mr-2"></i> Buscando na agenda...</p>';
 
             const { data, error } = await supabaseClient
-                .from('bookings')
-                .select('*')
-                .order('date', { ascending: false });
+                .rpc('get_client_bookings', { p_phone: rawPhone });
 
             if (error) {
                 resultsDiv.innerHTML = '<p class="text-center text-xs text-red-400 py-4">Erro ao consultar agendamentos.</p>';
                 return;
             }
 
-            const bookings = (data || []).filter(b => b.client_phone.replace(/\D/g, '').includes(rawPhone));
+            const bookings = data || [];
 
             if (bookings.length === 0) {
-                resultsDiv.innerHTML = '<p class="text-center text-xs text-gray-400 py-6">Nenhum agendamento encontrado.</p>';
+                resultsDiv.innerHTML = '<p class="text-center text-xs text-gray-400 py-6">Nenhum agendamento encontrado para este número.</p>';
                 return;
             }
 
@@ -816,13 +883,13 @@
                 return `
                     <div class="bg-[#121212] border border-white/10 p-4 rounded-2xl space-y-2">
                         <div class="flex justify-between items-center">
-                            <span class="text-gold font-bold text-sm">${formatDateBR(b.date)} às ${b.time}</span>
-                            <span class="text-[11px] px-2 py-0.5 rounded-full ${b.status === 'Cancelado' ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}">${b.status}</span>
+                            <span class="text-gold font-bold text-sm">${formatDateBR(b.date)} às ${escapeHtml(b.time)}</span>
+                            <span class="text-[11px] px-2 py-0.5 rounded-full ${b.status === 'Cancelado' ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}">${escapeHtml(b.status)}</span>
                         </div>
-                        <p class="text-xs text-gray-300"><strong>Serviços:</strong> ${servicesList}</p>
+                        <p class="text-xs text-gray-300"><strong>Serviços:</strong> ${escapeHtml(servicesList)}</p>
                         <div class="flex justify-between items-center pt-1">
                             <span class="text-xs font-bold text-white">Total: ${formatCurrency(b.total_price)}</span>
-                            ${b.status !== 'Cancelado' ? `<button onclick="cancelBookingByClient(${b.id})" class="text-xs text-red-400 hover:underline">Cancelar</button>` : ''}
+                            ${b.status === 'Confirmado' ? `<button onclick="cancelBookingByClient(${b.id})" class="text-xs text-red-400 hover:underline">Cancelar</button>` : ''}
                         </div>
                     </div>
                 `;
@@ -830,33 +897,66 @@
         }
 
         async function cancelBookingByClient(bookingId) {
+            const rawPhone = document.getElementById('search-client-phone').value.replace(/\D/g, '');
             if (!confirm("Deseja cancelar este agendamento?")) return;
-            const { error } = await supabaseClient
-                .from('bookings')
-                .update({ status: 'Cancelado' })
-                .eq('id', bookingId);
 
-            if (!error) {
+            const { data, error } = await supabaseClient
+                .rpc('cancel_client_booking', { p_booking_id: bookingId, p_phone: rawPhone });
+
+            if (!error && data) {
                 searchClientBookings();
                 updateAvailableTimeSlots();
-            }
-        }
-
-        // --- PAINEL ADMINISTRATIVO DO LEVY NA NUVEM ---
-        function openAdminAuthModal() { document.getElementById('admin-auth-modal').classList.remove('hidden'); document.getElementById('admin-password-input').focus(); }
-        function closeAdminAuthModal() { document.getElementById('admin-auth-modal').classList.add('hidden'); document.getElementById('admin-auth-error').classList.add('hidden'); document.getElementById('admin-password-input').value = ''; }
-        
-        function verifyAdminPassword(e) {
-            e.preventDefault();
-            if (document.getElementById('admin-password-input').value === ADMIN_PASSWORD) {
-                closeAdminAuthModal();
-                openAdminDashboard();
             } else {
-                document.getElementById('admin-auth-error').classList.remove('hidden');
+                alert("Não foi possível cancelar este agendamento.");
             }
         }
 
-        function openAdminDashboard() {
+        // --- AUTENTICAÇÃO REAL DO LEVY VIA SUPABASE AUTH ---
+        function openAdminAuthModal() {
+            document.getElementById('admin-auth-modal').classList.remove('hidden');
+            document.getElementById('admin-email-input').focus();
+        }
+
+        function closeAdminAuthModal() {
+            document.getElementById('admin-auth-modal').classList.add('hidden');
+            document.getElementById('admin-auth-error').classList.add('hidden');
+            document.getElementById('admin-password-input').value = '';
+        }
+        
+        async function verifyAdminPassword(e) {
+            e.preventDefault();
+            const email = document.getElementById('admin-email-input').value.trim();
+            const password = document.getElementById('admin-password-input').value;
+            const loginBtn = document.getElementById('admin-login-btn');
+            const errorEl = document.getElementById('admin-auth-error');
+
+            errorEl.classList.add('hidden');
+            loginBtn.disabled = true;
+            loginBtn.textContent = "Entrando...";
+
+            const { data, error } = await supabaseClient.auth.signInWithPassword({
+                email: email,
+                password: password
+            });
+
+            loginBtn.disabled = false;
+            loginBtn.textContent = "Entrar";
+
+            if (error || !data.session) {
+                errorEl.classList.remove('hidden');
+                return;
+            }
+
+            closeAdminAuthModal();
+            openAdminDashboard();
+        }
+
+        async function openAdminDashboard() {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (!session) {
+                openAdminAuthModal();
+                return;
+            }
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('admin-filter-date').value = today;
             renderAdminAgenda();
@@ -864,7 +964,10 @@
             document.getElementById('admin-dashboard-modal').classList.remove('hidden');
         }
 
-        function closeAdminDashboard() { document.getElementById('admin-dashboard-modal').classList.add('hidden'); }
+        async function closeAdminDashboard() {
+            await supabaseClient.auth.signOut();
+            document.getElementById('admin-dashboard-modal').classList.add('hidden');
+        }
         
         function switchAdminTab(tabName) {
             const agendaTab = document.getElementById('admin-tab-agenda');
@@ -911,7 +1014,7 @@
 
             const { data, error } = await query;
             if (error) {
-                listDiv.innerHTML = '<div class="p-6 text-center text-xs text-red-400">Erro ao carregar agenda.</div>';
+                listDiv.innerHTML = '<div class="p-6 text-center text-xs text-red-400">Sessão expirada ou sem permissão. Faça login novamente.</div>';
                 return;
             }
 
@@ -933,11 +1036,11 @@
                     <div class="bg-[#121212] border border-white/10 p-5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div class="space-y-1">
                             <div class="flex items-center gap-3">
-                                <span class="bg-gold/20 text-gold font-bold px-2.5 py-1 rounded-lg text-xs">${formatDateBR(b.date)} • ${b.time}</span>
-                                <h4 class="text-white font-bold text-base">${b.client_name}</h4>
-                                <span class="text-[11px] px-2 py-0.5 rounded-full ${b.status === 'Concluído' ? 'bg-blue-500/20 text-blue-400' : b.status === 'Cancelado' ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}">${b.status}</span>
+                                <span class="bg-gold/20 text-gold font-bold px-2.5 py-1 rounded-lg text-xs">${formatDateBR(b.date)} • ${escapeHtml(b.time)}</span>
+                                <h4 class="text-white font-bold text-base">${escapeHtml(b.client_name)}</h4>
+                                <span class="text-[11px] px-2 py-0.5 rounded-full ${b.status === 'Concluído' ? 'bg-blue-500/20 text-blue-400' : b.status === 'Cancelado' ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}">${escapeHtml(b.status)}</span>
                             </div>
-                            <p class="text-xs text-gray-400"><i class="fa-brands fa-whatsapp text-green-500 mr-1"></i> ${b.client_phone} • <strong>Serviços:</strong> ${servicesList}</p>
+                            <p class="text-xs text-gray-400"><i class="fa-brands fa-whatsapp text-green-500 mr-1"></i> ${escapeHtml(b.client_phone)} • <strong>Serviços:</strong> ${escapeHtml(servicesList)}</p>
                         </div>
                         <div class="flex items-center justify-between sm:justify-end gap-3 border-t sm:border-0 border-white/10 pt-3 sm:pt-0">
                             <span class="text-gold font-extrabold text-base mr-2">${formatCurrency(b.total_price)}</span>
@@ -970,8 +1073,8 @@
             if (!tbody) return;
             tbody.innerHTML = cachedServices.map(s => `
                 <tr class="hover:bg-white/5 transition">
-                    <td class="px-5 py-3.5 text-xs text-gray-400">${s.category}</td>
-                    <td class="px-5 py-3.5 font-medium text-white">${s.name}</td>
+                    <td class="px-5 py-3.5 text-xs text-gray-400">${escapeHtml(s.category)}</td>
+                    <td class="px-5 py-3.5 font-medium text-white">${escapeHtml(s.name)}</td>
                     <td class="px-5 py-3.5 font-bold text-gold">${formatCurrency(s.price)}</td>
                     <td class="px-5 py-3.5 text-right space-x-2">
                         <button onclick="editServiceItem(${s.id})" class="bg-blue-500/20 hover:bg-blue-500/40 text-blue-400 px-3 py-1 rounded-lg text-xs font-semibold transition">Editar</button>
@@ -1038,10 +1141,8 @@
         const todayStr = new Date().toISOString().split('T')[0];
         document.getElementById('booking-date').setAttribute('min', todayStr);
 
-        // Carrega os dados da nuvem ao abrir o site
         loadServicesFromCloud();
 
-        // Escuta alterações em tempo real no Supabase (se o Levy mudar algo no Safari, atualiza no Chrome na hora)
         supabaseClient
             .channel('public:changes')
             .on('postgres_changes', { event: '*', schema: 'public', table: 'services' }, () => {
@@ -1055,7 +1156,6 @@
             })
             .subscribe();
 
-        // Gatilho do link secreto (#admin)
         if (window.location.hash === '#admin') {
             openAdminAuthModal();
         }
